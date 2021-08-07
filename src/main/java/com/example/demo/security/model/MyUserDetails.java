@@ -10,13 +10,11 @@ import java.util.List;
 @Data
 public class MyUserDetails implements UserDetails {
 
-    private List<GrantedAuthority> authorities;
-
     private String key;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override

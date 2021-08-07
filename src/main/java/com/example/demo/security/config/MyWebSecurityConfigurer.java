@@ -1,8 +1,6 @@
 package com.example.demo.security.config;
 
-import com.example.demo.security.exception.handler.authentication.MyAuthenticationEntryPoint;
 import com.example.demo.security.exception.handler.authentication.MyAuthenticationFailureHandler;
-import com.example.demo.security.exception.handler.authorization.MyAccessDeniedHandler;
 import com.example.demo.security.filter.MyPreAuthenticatedProcessingFilter;
 import com.example.demo.security.service.MyAuthenticationUserDetailsService;
 import org.springframework.context.annotation.Configuration;
@@ -26,11 +24,6 @@ class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilter(getMyPreAuthenticatedProcessingFilter());
-        http.authorizeRequests()
-                .antMatchers("/world").hasAuthority("WORLD")
-                .anyRequest().authenticated();
-        http.exceptionHandling().authenticationEntryPoint(new MyAuthenticationEntryPoint());
-        http.exceptionHandling().accessDeniedHandler(new MyAccessDeniedHandler());
     }
 
     @Override
@@ -41,7 +34,7 @@ class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     public AbstractPreAuthenticatedProcessingFilter getMyPreAuthenticatedProcessingFilter() throws Exception {
         var myPreAuthenticatedProcessingFilter = new MyPreAuthenticatedProcessingFilter();
         myPreAuthenticatedProcessingFilter.setAuthenticationManager(authenticationManager());
-        // myPreAuthenticatedProcessingFilter.setAuthenticationFailureHandler(new MyAuthenticationFailureHandler());
+        myPreAuthenticatedProcessingFilter.setAuthenticationFailureHandler(new MyAuthenticationFailureHandler());
         myPreAuthenticatedProcessingFilter.setCheckForPrincipalChanges(true);
         myPreAuthenticatedProcessingFilter.setInvalidateSessionOnPrincipalChange(true);
         return myPreAuthenticatedProcessingFilter;

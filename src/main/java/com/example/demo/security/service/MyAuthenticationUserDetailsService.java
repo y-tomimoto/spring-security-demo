@@ -28,15 +28,6 @@ public class MyAuthenticationUserDetailsService implements AuthenticationUserDet
 
         myUserDetails.setKey(key);
 
-        /**
-         * Add Authority
-         */
-        if (key.equals("world")) {
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority("WORLD"));
-            myUserDetails.setAuthorities(authorities);
-        }
-
         return myUserDetails;
     }
 }
